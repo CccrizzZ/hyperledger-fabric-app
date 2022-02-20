@@ -108,10 +108,11 @@ export default class UserUpload extends Component {
             agreeToTerm: !this.state.agreeToTerm
         })
     }
+    // background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(9,121,67,1) 54%, rgba(0,212,255,1) 100%);
 
     render() {
         return (
-        <div style={{ backgroundColor: 'dodgerblue', height: '100vh'}}>
+        <div style={{ background: 'linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(0,153,79,1) 100%, rgba(0,255,111,1) 100%)', height: '100vh'}}>
             <Window style={{ maxWidth: '500px', width: '500px', marginTop: 'calc(50vh - 350px)', marginLeft: 'calc(50vw - 250px)' }}>
                 <WindowHeader>
                     <span>💾</span>
@@ -129,28 +130,28 @@ export default class UserUpload extends Component {
                     <input type='file' id="id1" ref={this.id1ref} style={{visibility: 'hidden', width: '0'}} onChange={this.fileChange}></input>
                     <Button name='file1' onClick={this.onFileChange}>Select File</Button> 
                     <span style={{marginLeft: '100px'}}>Front Side of ID</span>
-                    <Panel variant='well' style={{marginLeft: '20px'}}>{this.state.documentFrontside.name}</Panel>
+                    {this.state.documentFrontside.name === undefined ? undefined : <Panel variant='well' style={{marginLeft: '20px'}}>{this.state.documentFrontside.name}</Panel>}
                     <hr />
 
                     {/* id2 */}
                     <input type='file' id="id2" ref={this.id2ref} style={{visibility: 'hidden', width: '0'}} onChange={this.fileChange}></input>
                     <Button name='file2' onClick={this.onFileChange}>Select File</Button>
                     <span style={{marginLeft: '100px'}}>Back Side of ID</span>
-                    <Panel variant='well' style={{marginLeft: '20px'}}>{this.state.documentBackside.name}</Panel>
+                    {this.state.documentBackside.name === undefined ? undefined : <Panel variant='well' style={{marginLeft: '20px'}}>{this.state.documentBackside.name}</Panel>}
                     <hr />
 
                     {/* id3 */}
                     <input type='file' id="id3" ref={this.id3ref} style={{visibility: 'hidden', width: '0'}} onChange={this.fileChange}></input>
                     <Button name='file3' onClick={this.onFileChange}>Select File</Button>
                     <span style={{marginLeft: '100px'}}>Selfie Holding the ID</span>
-                    <Panel variant='well' style={{marginLeft: '20px'}}>{this.state.documentSelfie.name}</Panel>
+                    {this.state.documentSelfie.name === undefined ? undefined : <Panel variant='well' style={{marginLeft: '20px'}}>{this.state.documentSelfie.name}</Panel>}
                     <hr />
 
                     {/* agree to term of service */}
                     <Checkbox
                         checked={this.state.agreeToTerm}
                         onChange={this.toggleAgree}
-                        label='I agree to the Software and Service Agreement'
+                        label=' 🚩 I agree to the Software and Service Agreement'
                     />
 
                     {/* submit button */}
