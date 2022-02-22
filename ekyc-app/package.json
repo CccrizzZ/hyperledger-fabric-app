@@ -12,6 +12,7 @@
     "react-scripts": "5.0.0",
     "react95": "^3.11.1",
     "styled-components": "^5.3.3",
+    "tesseract.js": "^2.1.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

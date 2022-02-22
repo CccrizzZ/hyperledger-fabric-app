@@ -20,7 +20,9 @@ export default class UserUpload extends Component {
             documentBackside: '',
             documentSelfie: '',
             agreeToTerm: false,
-            submitted: false
+            submitted: false,
+            isDoneUploading: false,
+            uploadingSuccess: false
 
         }
 
@@ -83,13 +85,15 @@ export default class UserUpload extends Component {
             // upload the files
             console.log("uploading files")
             this.setState({
-                submitted: true
+                submitted: true,
+                isDoneUploading: true, 
+                uploadingSuccess: true
             })
 
 
             // send the files to the server
 
-
+            
 
 
 
@@ -110,56 +114,118 @@ export default class UserUpload extends Component {
     }
     // background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(9,121,67,1) 54%, rgba(0,212,255,1) 100%);
 
+
+
+    // uploading window content
+    uploadingDOM = () => {
+        return (
+            <WindowContent style={{ padding: '0.25rem' }}>
+                    
+                {/* the user file image */}
+                <hr />
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <img alt="userfiles" src="https://icons.iconarchive.com/icons/dario-arnaez/genesis-3G/256/User-Files-icon.png" />
+                        {this.state.submitted ? <LoadingIndicator isLoading /> : null}
+                    </div>
+                <hr />
+
+                {/* id1 */}
+                <input type='file' id="id1" ref={this.id1ref} style={{visibility: 'hidden', width: '0'}} onChange={this.fileChange}></input>
+                <Button name='file1' onClick={this.onFileChange}>Select File</Button> 
+                <span style={{marginLeft: '100px'}}>Front Side of ID</span>
+                {this.state.documentFrontside.name === undefined ? undefined : <Panel variant='well' style={{marginLeft: '20px'}}>{this.state.documentFrontside.name}</Panel>}
+                <hr />
+
+                {/* id2 */}
+                <input type='file' id="id2" ref={this.id2ref} style={{visibility: 'hidden', width: '0'}} onChange={this.fileChange}></input>
+                <Button name='file2' onClick={this.onFileChange}>Select File</Button>
+                <span style={{marginLeft: '100px'}}>Back Side of ID</span>
+                {this.state.documentBackside.name === undefined ? undefined : <Panel variant='well' style={{marginLeft: '20px'}}>{this.state.documentBackside.name}</Panel>}
+                <hr />
+
+                {/* id3 */}
+                <input type='file' id="id3" ref={this.id3ref} style={{visibility: 'hidden', width: '0'}} onChange={this.fileChange}></input>
+                <Button name='file3' onClick={this.onFileChange}>Select File</Button>
+                <span style={{marginLeft: '100px'}}>Selfie Holding the ID</span>
+                {this.state.documentSelfie.name === undefined ? undefined : <Panel variant='well' style={{marginLeft: '20px'}}>{this.state.documentSelfie.name}</Panel>}
+                <hr />
+
+                {/* agree to term of service */}
+                <Checkbox
+                    checked={this.state.agreeToTerm}
+                    onChange={this.toggleAgree}
+                    label=' 🚩 I agree to the Software and Service Agreement'
+                />
+
+                {/* submit button */}
+                <Button fullWidth onClick={this.onSubmitPressed}>Submit</Button>
+            
+            </WindowContent>
+        )
+    }
+
+
+    doneUploadingDOM = () => {
+        return (
+            <WindowContent style={{ padding: '0.25rem' }}>
+                    
+                {/* the user file image */}
+                <hr />
+                <div style={{ display: 'grid', justifyContent: 'center' }}>
+                    <img alt="userfiles" src="https://icons.iconarchive.com/icons/hopstarter/soft-scraps/256/Button-Upload-icon.png" />
+                    <h1 style={{ margin: 'auto', fontWeight: 'bold' }}>Done Uploading</h1>
+                </div>
+                <hr />
+
+
+
+                {/* return button */}
+                <Button fullWidth onClick={this.returnToUploadDOM}>Return</Button>
+            
+            </WindowContent>
+        )
+    }
+
+
+    returnToUploadDOM = () => {
+        this.setState({ 
+            submitted: false, 
+            isDoneUploading: false, 
+            uploadingSuccess: false
+        })
+    }
+
+
+    failedUploadingDOM = () => {
+        return (
+            <WindowContent style={{ padding: '0.25rem' }}>
+                    
+                {/* the user file image */}
+                <hr />
+                <div style={{ display: 'grid', justifyContent: 'center' }}>
+                    <img alt="userfiles" src="https://icons.iconarchive.com/icons/gianni-polito/colobrush/256/system-attention-icon.png" />
+                    <h1 style={{ margin: 'auto', fontWeight: 'bold'}}>Failed to Upload</h1>
+                </div>
+                <hr />
+
+                {/* return button */}
+                <Button fullWidth onClick={this.returnToUploadDOM}>Return</Button>
+            
+            </WindowContent>
+        )
+    }
+
+
     render() {
         return (
-        <div style={{ background: 'linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(0,153,79,1) 100%, rgba(0,255,111,1) 100%)', height: '100vh'}}>
+        
             <Window style={{ maxWidth: '500px', width: '500px', marginTop: 'calc(50vh - 350px)', marginLeft: 'calc(50vw - 250px)' }}>
                 <WindowHeader>
                     <span>💾</span>
                     Uploader.app
                 </WindowHeader>
-                <WindowContent style={{ padding: '0.25rem' }}>
-                    
-                    {/* the user file image */}
-                    <hr />
-                        <img style={{ marginLeft: '120px'}}alt="userfiles" src="https://icons.iconarchive.com/icons/dario-arnaez/genesis-3G/256/User-Files-icon.png"></img>
-                        {this.state.submitted ? <LoadingIndicator isLoading /> : null}
-                    <hr />
-
-                    {/* id1 */}
-                    <input type='file' id="id1" ref={this.id1ref} style={{visibility: 'hidden', width: '0'}} onChange={this.fileChange}></input>
-                    <Button name='file1' onClick={this.onFileChange}>Select File</Button> 
-                    <span style={{marginLeft: '100px'}}>Front Side of ID</span>
-                    {this.state.documentFrontside.name === undefined ? undefined : <Panel variant='well' style={{marginLeft: '20px'}}>{this.state.documentFrontside.name}</Panel>}
-                    <hr />
-
-                    {/* id2 */}
-                    <input type='file' id="id2" ref={this.id2ref} style={{visibility: 'hidden', width: '0'}} onChange={this.fileChange}></input>
-                    <Button name='file2' onClick={this.onFileChange}>Select File</Button>
-                    <span style={{marginLeft: '100px'}}>Back Side of ID</span>
-                    {this.state.documentBackside.name === undefined ? undefined : <Panel variant='well' style={{marginLeft: '20px'}}>{this.state.documentBackside.name}</Panel>}
-                    <hr />
-
-                    {/* id3 */}
-                    <input type='file' id="id3" ref={this.id3ref} style={{visibility: 'hidden', width: '0'}} onChange={this.fileChange}></input>
-                    <Button name='file3' onClick={this.onFileChange}>Select File</Button>
-                    <span style={{marginLeft: '100px'}}>Selfie Holding the ID</span>
-                    {this.state.documentSelfie.name === undefined ? undefined : <Panel variant='well' style={{marginLeft: '20px'}}>{this.state.documentSelfie.name}</Panel>}
-                    <hr />
-
-                    {/* agree to term of service */}
-                    <Checkbox
-                        checked={this.state.agreeToTerm}
-                        onChange={this.toggleAgree}
-                        label=' 🚩 I agree to the Software and Service Agreement'
-                    />
-
-                    {/* submit button */}
-                    <Button fullWidth onClick={this.onSubmitPressed}>Submit</Button>
-                
-                </WindowContent>
+                {this.state.isDoneUploading ? (this.state.uploadingSuccess ? this.doneUploadingDOM() : this.failedUploadingDOM() ) : this.uploadingDOM() }
             </Window>
-        </div>
         )
     }
 }
