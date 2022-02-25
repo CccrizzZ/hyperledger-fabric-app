@@ -3,10 +3,15 @@ import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { 
   styleReset,
   AppBar,
-  Bar,
   Toolbar,
-  Button
+  Button,
+  Window,
+  WindowHeader,
+  WindowContent,
+  TextField
+
 } from 'react95';
+import axios from 'axios';
 // pick a theme of your choice
 import millenium from "react95/dist/themes/millenium";
 // original Windows95 font (optionally)
@@ -44,25 +49,111 @@ export default class App extends Component {
     super(props)
 
     this.state = {
-      currentComp: 'home'
+      currentComp: 'home',
+      isLogin: false
     }
+
+
+    this.userInput = React.createRef();
+    this.passwordInput = React.createRef();
+
   }
 
 
   goUpload = () => {
+    if(!this.state.isLogin) return
     this.setState({ currentComp: 'upload' })
+    console.log('upload')
+
   }
 
   goHome = () => {
+    if(!this.state.isLogin) return 
     this.setState({ currentComp: 'home' })
-    
+    console.log('home')
   }
 
   goQuery = () => {
+    if(!this.state.isLogin) return 
     this.setState({ currentComp: 'query' })
+    console.log('query')
     
   }
 
+
+  handleChange = () => {
+
+  }
+
+
+
+  // send request to couch db?? or smart contract
+  login = () => {
+
+    // axios({
+    //   method: 'get', 
+    //   url: 'http://127.0.0.1:3001/login',
+    //   data: {
+    //     uname: '',
+    //     upwd: ''
+    //   }
+    // })
+    // .then((response) => {
+
+    // })
+
+  }
+  register = () => {
+
+    // axios({
+    //   method: 'post', 
+    //   url: 'http://127.0.0.1:3001/register',
+    //   data: {
+    //     uname: '',
+    //     upwd: ''
+    //   }
+    // })
+    // .then((response) => {
+
+    // })
+
+
+  }
+
+
+
+  renderLogin = () => {
+    return (
+      <Window style={{ maxWidth: '500px', width: '500px', marginTop: 'calc(50vh - 350px)', marginLeft: 'calc(50vw - 250px)' }}>
+        <WindowHeader>
+            <span>🔐</span>
+            Login.app
+        </WindowHeader>
+        <WindowContent style={{ padding: '0.25rem' }}>
+                    
+          <hr />
+            <div style={{ display: 'grid', justifyContent: 'center' }}>
+            <TextField
+              id="uname"
+              placeholder='User Name'
+              onChange={this.handleChange}
+              fullWidth
+            />
+            
+            <TextField
+              id="upwd"
+              placeholder='Password'
+              onChange={this.handleChange}
+              fullWidth
+            />
+            </div>
+          <hr />
+          <Button fullWidth onClick={this.login()}>Login</Button>
+          <Button fullWidth onClick={this.login()}>Register</Button>
+        </WindowContent>
+      </Window>
+    )
+  }
 
   renderApp = () => {
     switch (this.state.currentComp) {
@@ -95,7 +186,7 @@ export default class App extends Component {
           </AppBar>
 
 
-          {this.renderApp()}
+          {this.state.isLogin ? this.renderApp() : this.renderLogin()}
           
         </div>
         </ThemeProvider>
