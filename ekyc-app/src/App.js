@@ -134,6 +134,7 @@ export default class App extends Component {
           <hr />
             <div style={{ display: 'grid', justifyContent: 'center' }}>
             <TextField
+              ref={this.userInput}
               id="uname"
               placeholder='User Name'
               onChange={this.handleChange}
@@ -141,6 +142,7 @@ export default class App extends Component {
             />
             
             <TextField
+              ref={this.passwordInput}
               id="upwd"
               placeholder='Password'
               onChange={this.handleChange}

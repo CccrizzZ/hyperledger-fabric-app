@@ -1,12 +1,7 @@
-/*
- * Copyright IBM Corp. All Rights Reserved.
- *
- * SPDX-License-Identifier: Apache-2.0
- */
 
 'use strict';
 
-const assetTransfer = require('./lib/assetTransfer');
+const eKYC = require('./lib/eKYC');
 
-module.exports.AssetTransfer = assetTransfer;
-module.exports.contracts = [assetTransfer];
+module.exports.eKYC = eKYC;
+module.exports.contracts = [eKYC];
