@@ -9,8 +9,27 @@ import {
 } from 'react95'
 
 
+
+// kyc state
+// 1 none
+// 2 uploaded
+// 3 uploaded approved
+// 4 uploaded rejected
+
 export default class Home extends Component {
-  render() {
+
+    constructor(props) {
+        super(props)
+
+        this.state = {
+
+        }
+
+    }
+
+
+
+    render() {
     return (
         <Window style={{ maxWidth: '500px', width: '500px', marginTop: 'calc(50vh - 350px)', marginLeft: 'calc(50vw - 250px)' }}>
             <WindowHeader>
@@ -22,12 +41,13 @@ export default class Home extends Component {
                 {/* the user file image */}
                 <hr />
                     <div style={{ display: 'grid', justifyContent: 'center' }}>
-                        <Fieldset label='Upload eKYC Documents'>
-                            Click on "Upload Documents" tab and proceed to upload your KYC documents.
+                        <Fieldset label='Your Name'>
+                            {this.props.name}
                         </Fieldset>
                         <br />
-                        <Fieldset label='Label here'>
-                            Click on "Query eKYC Record" tab to search for specific records.
+                        <Fieldset label='Your ID'>
+                            {this.props.id}
+
                         </Fieldset>
                     </div>
                 <hr />
@@ -36,10 +56,9 @@ export default class Home extends Component {
                 <div style={{ display: 'flex' }}>
 
                 </div>
-                <hr />
 
             </WindowContent>
         </Window>
-    )
-  }
+        )
+    }
 }

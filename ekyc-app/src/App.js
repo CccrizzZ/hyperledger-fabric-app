@@ -50,7 +50,13 @@ export default class App extends Component {
 
     this.state = {
       currentComp: 'home',
-      isLogin: false
+      isLogin: false,
+      uname: null,
+      uid: null,
+      ukyc: null,
+      rejected : null
+
+
     }
 
 
@@ -63,59 +69,85 @@ export default class App extends Component {
   goUpload = () => {
     if(!this.state.isLogin) return
     this.setState({ currentComp: 'upload' })
-    console.log('upload')
 
   }
 
   goHome = () => {
     if(!this.state.isLogin) return 
     this.setState({ currentComp: 'home' })
-    console.log('home')
+
   }
 
   goQuery = () => {
     if(!this.state.isLogin) return 
     this.setState({ currentComp: 'query' })
-    console.log('query')
-    
-  }
-
-
-  handleChange = () => {
 
   }
 
 
 
-  // send request to couch db?? or smart contract
+
+
+  // user login
   login = () => {
+    
+    // null check
+    if (this.userInput.current.value.length <= 0 || this.passwordInput.current.value.length <= 0) {
+      alert('please enter both username and password')
+      return
+    }
 
-    // axios({
-    //   method: 'get', 
-    //   url: 'http://127.0.0.1:3001/login',
-    //   data: {
-    //     uname: '',
-    //     upwd: ''
-    //   }
-    // })
-    // .then((response) => {
+    // send the login request
+    axios({
+      method: 'get', 
+      url: `http://34.130.139.150:3001/login/${this.userInput.current.value}/${this.passwordInput.current.value}`,
+    })
+    .then((response) => {
+      console.log(response.data[0]._id)
+      if(response.data.length > 0){
+        alert("Login Successful!")
 
-    // })
+        // store the infos
+        this.setState({
+          isLogin: true,
+          uname: response.data[0].name,
+          uid: response.data[0]._id,
+          kyc: response.data[0].kyc,
+          uploaded: response.data[0].uploaded,
+          rejected: response.data[0].rejected
+
+        })
+
+      }
+    })
 
   }
+
+
+
+
+  // user register
   register = () => {
 
-    // axios({
-    //   method: 'post', 
-    //   url: 'http://127.0.0.1:3001/register',
-    //   data: {
-    //     uname: '',
-    //     upwd: ''
-    //   }
-    // })
-    // .then((response) => {
+    // null check
+    if (this.userInput.current.value.length <= 0 || this.passwordInput.current.value.length <= 0) {
+      alert('please enter both username and password')
+      return
+    }
 
-    // })
+    // send the register request
+    axios({
+      method: 'post', 
+      url: `http://34.130.139.150:3001/register/${this.userInput.current.value}/${this.passwordInput.current.value}`,
+    })
+    .then((response) => {
+      console.log(response)
+      if (response.data === "name exist"){
+        alert("User Name Exists!")
+      }else if(response.data.ok === true){
+        alert("Register Successful, Please Login!")
+      }
+    })
 
 
   }
@@ -150,8 +182,8 @@ export default class App extends Component {
             />
             </div>
           <hr />
-          <Button fullWidth onClick={this.login()}>Login</Button>
-          <Button fullWidth onClick={this.login()}>Register</Button>
+          <Button fullWidth onClick={this.login}>Login</Button>
+          <Button fullWidth onClick={this.register}>Register</Button>
         </WindowContent>
       </Window>
     )
@@ -162,9 +194,9 @@ export default class App extends Component {
       case 'upload':
         return <UserUpload />
       case 'home':
-        return <Home /> 
+        return <Home id={this.state.uid} name={this.state.uname} kyc={this.state.ukyc} /> 
       case 'query':
-        return <QueryKYC />
+        return <QueryKYC rejected={this.state.rejected} kyc={this.state.ukyc} uploaded={this.state.uploaded} />
       default:
         return undefined
     }
