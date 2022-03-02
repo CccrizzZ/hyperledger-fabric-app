@@ -10,21 +10,32 @@
 
 
 ### State machine diagram
-
+![diagram](https://github.com/CccrizzZ/hyperledger-fabric-app/blob/master/statemachine.png)
 
 
 ### Transition descriptions
+- If document successfully submitted, transit from submission state to submission processing state.
+- If document failed to pass fraud analysis, transit from submission processing state to submission state.
+- If document passed fraud analysis, transit from processing to kyc success state.
+
+
 
 ### State data descriptions
-- State: Register; Not registered, Approved or Rejected
-- Name: First Name; Middle Name; Last Name
-- Date of Birth; Most be over 16 years of age
-- Address: Within the Jurisdiction where ID is issued
-- Identification Permitted: Citizenship Passport, Drivers License, Permanent resident card
+- Document submission state
+    - Login information
+    - KYC information
+    - Identification documents
+- Document processing state
+    - User documents
+    - Processing result
+- Success state
+    - All user information
+    - KYC confirmation
+
 
 ### Role descriptions
-- Users – Any user can create account which will be save in CouchDB
-- Org 1 Admin – Users from Org 1 who verify data and approve or reject an application
-- Org 2 Amin – User  from Org 2 who can verify data and approve or reject an application
+- Client: any user can create account which will be save in CouchDB, user KYC information will be stored on Hyperledger.
+- Admin: verify data and approve or reject an application.
 
 ### Screenshots
+![diagram](https://github.com/CccrizzZ/hyperledger-fabric-app/blob/master/sc22.png)
