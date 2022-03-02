@@ -1,7 +1,7 @@
 'use strict';
 
 const { Contract } = require('fabric-contract-api');
-
+const ClientIdentity = require('fabric-shim').ClientIdentity;
 
 
 
@@ -11,55 +11,42 @@ class eKYC extends Contract {
 
     // constructor function
     async initLedger(ctx){
-
         console.info('initiallizing ledger...');
-        const assets = [
-            {
-                ID: '1',
-                Name: 'First-Last',
-                DOB: '20200101',
-                KYC: 'false'
-            },
-        ];
-
-        for (const asset of assets) {
-            asset.docType = 'kyc';
-            await ctx.stub.putState(asset.ID, Buffer.from(JSON.stringify(asset)));
-            console.info(`${asset.ID} KYC success`);
-        }
-
 
     }
 
+    // utility
+    async toBuffer() {
+        return Buffer.from(JSON.stringify(this));
+    }
+
+
 
     // a function called by outside world must return deterministic value
-    async CreateKYC(ctx, id, name, DOB) {
+    async CreateKYC(ctx, uname, orgname) {
+
 
         // construct new info
         const info = {
-            ID: id,
-            Name: name,
-            DOB: DOB
+            Name: uname,
+            Org: orgname
         };
 
         // push kyc info into state
-        // id <====> kycInfo
-        ctx.stub.putState(id, Buffer.from(JSON.stringify(info)));
+        ctx.stub.putState(uname, toBuffer(info));
 
         // return the new object
         return JSON.stringify(info);
 
     }
 
-
-    // lookup kyc info
-    async ReadKYC(ctx, id) {
+    
+    async GetKYC(ctx, uname) {
         // get the state of id
-        const assetJSON = await ctx.stub.getState(id);
+        const assetJSON = await ctx.stub.getState(uname);
 
-        // if found return true
-        // if not found return false
-        return assetJSON && assetJSON.length > 0;
+
+        return assetJSON;
     }
 
 
