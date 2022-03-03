@@ -16,8 +16,8 @@ class eKYC extends Contract {
     }
 
     // utility
-    async toBuffer() {
-        return Buffer.from(JSON.stringify(this));
+    async toBuffer(x) {
+        return Buffer.from(JSON.stringify(x));
     }
 
 
@@ -41,21 +41,23 @@ class eKYC extends Contract {
     }
 
     
-    async GetKYC(ctx, uname) {
+    async GetKYC(ctx, uname, orgname) {
         // get the state of id
-        const assetJSON = await ctx.stub.getState(uname);
+        const query = await ctx.stub.getState(uname);
+
+        // check if user's org name matches the param
 
 
-        return assetJSON;
+        return query;
     }
 
 
     // remove kyc by id
-    async RemoveKYC(ctx, id) {
-        const assetJSON = await ctx.stub.getState(id);
-        if (!assetJSON || assetJSON.length === 0) {
-            return 0;
-        }
+    async RemoveKYC(ctx, uname, orgname) {
+
+        // check if there is any kyc infos
+        const assetJSON = await ctx.stub.getState(uname);
+    
         return 1;
     }
 

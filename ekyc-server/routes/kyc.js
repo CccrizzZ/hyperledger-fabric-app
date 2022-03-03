@@ -7,7 +7,7 @@ const fs = require('fs');
 
 // connect to hyperledger blockchain
 // organization name, user id
-connect = async (uname, orgName) => {
+async function connect(uname, orgName) {
 
 
     // construct names
@@ -16,28 +16,24 @@ connect = async (uname, orgName) => {
 
 
     // get organization path
-    let ccpPath = path.resolve(__dirname, '..', '..', '..', 'fabric-samples','test-network', 'organizations', 'peerOrganizations', fullOrgName, connName);
-        
+    let ccpPath = path.resolve(__dirname, '..', '..', '..', 'fab2', 'fabric-samples','test-network', 'organizations', 'peerOrganizations', fullOrgName, connName);
     let ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
-    console.log(ccp)
+    console.log(ccpPath)
+    console.log(ccp.client)
     
   
 
     // create fs wallet store it in express server
-    let walletPath = '../wallets/' + fullOrgName;
+    let walletPath = path.join(process.cwd(), 'wallets', fullOrgName);
     console.log(walletPath)
 
     let wallet = await Wallets.newFileSystemWallet(walletPath);
-    console.log(wallet)
+    console.log(await wallet.list()) // show all the wallets in that organization
 
-    // let userExists = await wallet.get(uname);
-    // console.log(userExists)
+    let userExists = await wallet.get(uname);
+    console.log(userExists) // credentials
   
-  
-    // // return false if cant find user
-    // if (!userExists) {
-    //   return false;
-    // }
+
 
     // create gate way and connect
     let gateway = new Gateway();
@@ -55,11 +51,11 @@ connect = async (uname, orgName) => {
     );
   
     // get the channel the operations are in
-    let network = await gateway.getNetwork('mychannel');
+    let network = await gateway.getNetwork('kycchannel');
 
     // Get the contract from the network.
-    let contract = network.getContract('assetTransfer');
-  
+    let contract = network.getContract('eKYC');
+
     // return contract object
     return contract;
 }
@@ -74,6 +70,7 @@ router.get('/', function(req, res, next) {
 // get kyc info by name and org
 router.get('/getkyc/:uname/:orgname', async (req, res, next) => {
 
+
     try {
         // get the contract
         let contract = await connect(
@@ -85,20 +82,20 @@ router.get('/getkyc/:uname/:orgname', async (req, res, next) => {
         if(!contract){
             res.send(false)
 
-            // res.send("contract not found")
         }
 
-        // const result = await contract.submitTransaction(
-        //     'GetKYC',
-        //     req.params['uname'], 
-        // )
+        const result = await contract.submitTransaction(
+            'GetKYC',
+            req.params['uname'], 
+            req.params['orgname']
+        )
         
-        res.send(true)
+        res.send(result)
 
 
 
     } catch (err) {
-        res.send("Err:" + err)
+        res.send("Err: " + err)
     }
 })
 

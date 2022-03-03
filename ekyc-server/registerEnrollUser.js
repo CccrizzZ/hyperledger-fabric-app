@@ -27,7 +27,7 @@ async function main() {
 
 
     // load the network configuration
-    let ccpPath = path.resolve(__dirname, '..', '..', 'fabric-samples', 'test-network', 'organizations', 'peerOrganizations', orgname, connectionname);
+    let ccpPath = path.resolve(__dirname, '..', '..','fab2', 'fabric-samples', 'test-network', 'organizations', 'peerOrganizations', orgname, connectionname);
     let ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
 
 
@@ -52,11 +52,9 @@ async function main() {
 
     // return if user name exists
     let userIdentity = await wallet.get(uname);
+    console.log(userIdentity)
     if (userIdentity) {
-      res.json({
-        status: false, 
-        error: { message: 'Error! User exists' }
-      });
+      console.log("user exists")
 
       return;
     }
