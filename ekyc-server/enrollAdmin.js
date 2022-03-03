@@ -28,7 +28,7 @@ async function main() {
         
         
         
-        let ccpPath = path.resolve(__dirname, '..', '..', 'fab2','fabric-samples', 'test-network', 'organizations', 'peerOrganizations', orgname, connectionname);
+        let ccpPath = path.resolve(__dirname, '..', 'test-network', 'organizations', 'peerOrganizations',  orgname, connectionname);
         let ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
         
         

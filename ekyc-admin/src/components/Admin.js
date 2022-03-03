@@ -38,11 +38,30 @@ export default class Admin extends Component {
     }
 
 
-    approveUser = async (userID) => {
+    approveUser = async (userID, org) => {
         // send request to express server get all user data
         await axios({
             method: 'post',
             url: `http://34.130.139.150:3001/approve/${userID}`,
+        })
+        .then(async (response) => {
+            console.log(response)
+            if (response.status === 200){
+                alert(`User ${userID} is Approved for KYC`)
+            }else{
+                alert(`Approval for User ${userID} failed`)
+            }
+
+            // refresh user list
+            this.getAllUser()
+            return response
+
+        })
+
+        // send request to express server get all user data
+        await axios({
+            method: 'post',
+            url: `http://34.130.139.150:3001/addkyc/${userID}/${org}`,
         })
         .then(async (response) => {
             console.log(response)

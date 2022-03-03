@@ -16,7 +16,7 @@ async function connect(uname, orgName) {
 
 
     // get organization path
-    let ccpPath = path.resolve(__dirname, '..', '..', '..', 'fab2', 'fabric-samples','test-network', 'organizations', 'peerOrganizations', fullOrgName, connName);
+    let ccpPath = path.resolve(__dirname, '..', '..', 'test-network', 'organizations', 'peerOrganizations', fullOrgName, connName);
     let ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
     console.log(ccpPath)
     console.log(ccp.client)
@@ -102,5 +102,36 @@ router.get('/getkyc/:uname/:orgname', async (req, res, next) => {
 
 
   
+// add kyc
+router.post('/addkyc/:uname/:orgname', async (req, res, next) => {
+
+
+    try {
+        // get the contract
+        let contract = await connect(
+            req.params['uname'],
+            req.params['orgname']
+        );
+
+        // return if contract not found
+        if(!contract){
+            res.send(false)
+
+        }
+
+        const result = await contract.submitTransaction(
+            'CreateKYC',
+            req.params['uname'], 
+            req.params['orgname']
+        )
+        
+        res.send(result)
+
+
+
+    } catch (err) {
+        res.send("Err: " + err)
+    }
+})
   
 module.exports = router;
