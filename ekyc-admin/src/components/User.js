@@ -11,17 +11,17 @@ export default class User extends Component {
 
     // approve user's kyc by id
     approve = () => {
-        this.props.approve(this.props.id)
+        this.props.approve(this.props.id, this.props.org)
     }
    
     // remove user's kyc by id
     remove = () => {
-        this.props.remove(this.props.id)
+        this.props.remove(this.props.id, this.props.org)
     }
 
     // reject user's kyc by id
     reject = () => {
-        this.props.reject(this.props.id)
+        this.props.reject(this.props.id, this.props.org)
     }
 
     render() {
@@ -30,6 +30,7 @@ export default class User extends Component {
                 <ListGroup.Item> 
                     <p>name: {this.props.name}</p>
                     <p>id: {this.props.id} </p>
+                    <p>org: {this.props.org} </p>
                     <p>kyc: {this.props.kyc}</p>
                     <p>uploaded: {this.props.uploaded}</p>
                     <p>rejected: {this.props.rejected}</p>

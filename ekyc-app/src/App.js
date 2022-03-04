@@ -62,7 +62,7 @@ export default class App extends Component {
 
     this.userInput = React.createRef();
     this.passwordInput = React.createRef();
-
+    this.orgInput = React.createRef();
   }
 
 
@@ -92,8 +92,8 @@ export default class App extends Component {
   login = () => {
     
     // null check
-    if (this.userInput.current.value.length <= 0 || this.passwordInput.current.value.length <= 0) {
-      alert('please enter both username and password')
+    if (this.userInput.current.value.length <= 0 || this.passwordInput.current.value.length <= 0 || this.orgInput.current.value.length <= 0) {
+      alert('please enter both username, organization and password')
       return
     }
 
@@ -113,6 +113,7 @@ export default class App extends Component {
           uname: response.data[0].name,
           uid: response.data[0]._id,
           kyc: response.data[0].kyc,
+          org: response.data[0].org,
           uploaded: response.data[0].uploaded,
           rejected: response.data[0].rejected
 
@@ -138,7 +139,7 @@ export default class App extends Component {
     // send the register request
     axios({
       method: 'post', 
-      url: `http://34.130.139.150:3001/register/${this.userInput.current.value}/${this.passwordInput.current.value}`,
+      url: `http://34.130.139.150:3001/register/${this.userInput.current.value}/${this.passwordInput.current.value}/${this.orgInput.current.value}`,
     })
     .then((response) => {
       console.log(response)
@@ -180,6 +181,14 @@ export default class App extends Component {
               onChange={this.handleChange}
               fullWidth
             />
+
+            <TextField
+              ref={this.orgInput}
+              id="org"
+              placeholder='Organization'
+              onChange={this.handleChange}
+              fullWidth
+            />
             </div>
           <hr />
           <Button fullWidth onClick={this.login}>Login</Button>
@@ -194,7 +203,7 @@ export default class App extends Component {
       case 'upload':
         return <UserUpload />
       case 'home':
-        return <Home id={this.state.uid} name={this.state.uname} kyc={this.state.ukyc} /> 
+        return <Home id={this.state.uid} org={this.state.org} name={this.state.uname} /> 
       case 'query':
         return <QueryKYC rejected={this.state.rejected} kyc={this.state.ukyc} uploaded={this.state.uploaded} />
       default:

@@ -58,7 +58,7 @@ export default class Admin extends Component {
 
         })
 
-        // send request to express server get all user data
+        // send request to hyperledger
         await axios({
             method: 'post',
             url: `http://34.130.139.150:3001/addkyc/${userID}/${org}`,
@@ -133,6 +133,7 @@ export default class Admin extends Component {
                                 <User 
                                     key={user.doc._id}
                                     name={user.doc.name}
+                                    org={user.doc.org}                                    
                                     id={user.doc._id}
                                     kyc={user.doc.kyc}
                                     rejected={user.doc.rejected}

@@ -47,7 +47,9 @@ export default class Home extends Component {
                         <br />
                         <Fieldset label='Your ID'>
                             {this.props.id}
-
+                        </Fieldset>
+                        <Fieldset label='Your Organization'>
+                            {this.props.org}
                         </Fieldset>
                     </div>
                 <hr />
