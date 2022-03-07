@@ -50,12 +50,12 @@ export default class App extends Component {
 
     this.state = {
       currentComp: 'home',
-      isLogin: false,
-      uname: null,
-      uid: null,
-      ukyc: null,
-      rejected : null
-
+      isLogin: true,
+      uname: 'Eric',
+      uid: '1000000',
+      ukyc: 'true',
+      rejected : null,
+      org: 'org1'
 
     }
 
@@ -67,19 +67,19 @@ export default class App extends Component {
 
 
   goUpload = () => {
-    if(!this.state.isLogin) return
+    // if(!this.state.isLogin) return
     this.setState({ currentComp: 'upload' })
 
   }
 
   goHome = () => {
-    if(!this.state.isLogin) return 
+    // if(!this.state.isLogin) return 
     this.setState({ currentComp: 'home' })
 
   }
 
   goQuery = () => {
-    if(!this.state.isLogin) return 
+    // if(!this.state.isLogin) return 
     this.setState({ currentComp: 'query' })
 
   }

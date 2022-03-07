@@ -73,4 +73,6 @@ cd test-network
 - Admin: verify data and approve or reject an application.
 
 ### Screenshots
-![diagram](https://github.com/CccrizzZ/hyperledger-fabric-app/blob/master/sc22.png)
+![sc](https://github.com/CccrizzZ/hyperledger-fabric-app/blob/master/sc22.png)
+![sc](https://github.com/CccrizzZ/hyperledger-fabric-app/blob/master/sc1.png)
+![sc](https://github.com/CccrizzZ/hyperledger-fabric-app/blob/master/sc2.png)

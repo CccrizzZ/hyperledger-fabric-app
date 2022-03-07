@@ -7,7 +7,8 @@ const fs = require('fs');
 
 // connect to couch db
 const nano = require('nano')('http://admin:adminpw@34.130.139.150:5984');
-const usersDB = nano.db.use('kyc_users');
+// const usersDB = nano.db.use('kyc_users');
+const usersDB = nano.db.use('_users');
 
 
 
